@@ -19,13 +19,9 @@ function showPosition(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-
-
     // Send the location to the backend (using async/await)
     sendLocationToBackend(latitude, longitude);
 }
-
-
 
 // Send location to backend using async/await
 async function sendLocationToBackend(latitude, longitude) {
@@ -37,6 +33,10 @@ async function sendLocationToBackend(latitude, longitude) {
             },
             body: JSON.stringify({ latitude, longitude })
         });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
         const data = await response.json();
         console.log('Location stored successfully:', data);

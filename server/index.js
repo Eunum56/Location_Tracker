@@ -4,15 +4,13 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 
 const corsOptions = {
-    origin: 'https://location-tracker-hh7v.vercel.app',
-    methods: ['POST'],
+    origin: 'https://location-tracker-hh7v.vercel.app', // Frontend URL
+    methods: ['GET', 'POST'],
     credentials: true,
 };
 
 const app = express();
 configDotenv();
-app.use(cors(corsOptions));
-app.use(express.json());
 
 const connectDB = async () => {
     try {
@@ -23,7 +21,9 @@ const connectDB = async () => {
     }
 };
 
-
+connectDB();
+app.use(cors(corsOptions)); // CORS middleware
+app.use(express.json()); // JSON middleware
 
 // Schema to store location data
 const locationSchema = new mongoose.Schema({
@@ -49,8 +49,7 @@ app.post('/store-location', async (req, res) => {
     }
 });
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    connectDB()
     console.log(`Server running at http://localhost:${PORT}`);
 });
