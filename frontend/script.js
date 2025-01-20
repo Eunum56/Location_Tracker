@@ -30,7 +30,7 @@ function showPosition(position) {
 // Send location to backend using async/await
 async function sendLocationToBackend(latitude, longitude) {
     try {
-        const response = await fetch('http://localhost:3000/store-location', {
+        const response = await fetch('https://location-tracker-gray.vercel.app/store-location', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
