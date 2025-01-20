@@ -25,6 +25,15 @@ connectDB();
 app.use(cors(corsOptions)); // CORS middleware
 app.use(express.json()); // JSON middleware
 
+// Add manual CORS headers
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://location-tracker-hh7v.vercel.app");
+    res.header("Access-Control-Allow-Methods", "GET, POST");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
+
 // Schema to store location data
 const locationSchema = new mongoose.Schema({
     latitude: Number,
