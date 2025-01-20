@@ -4,7 +4,7 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 
 const corsOptions = {
-    origin: 'http://127.0.0.1:5500',
+    origin: 'https://location-tracker-hh7v.vercel.app',
     methods: ['POST'],
     credentials: true,
 };
