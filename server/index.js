@@ -11,6 +11,8 @@ const corsOptions = {
 
 const app = express();
 configDotenv();
+app.use(cors(corsOptions));
+app.use(express.json());
 
 const connectDB = async () => {
     try {
@@ -21,9 +23,7 @@ const connectDB = async () => {
     }
 };
 
-connectDB();
-app.use(cors(corsOptions));
-app.use(express.json());
+
 
 // Schema to store location data
 const locationSchema = new mongoose.Schema({
@@ -51,5 +51,6 @@ app.post('/store-location', async (req, res) => {
 
 const PORT = 3000
 app.listen(PORT, () => {
+    connectDB()
     console.log(`Server running at http://localhost:${PORT}`);
 });
