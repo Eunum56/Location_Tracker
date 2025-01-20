@@ -2,12 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { configDotenv } from "dotenv";
+import path from "path";
 
-const corsOptions = {
-    origin: 'https://location-tracker-zv8x.vercel.app', // Frontend URL
-    methods: ['GET', 'POST'],
-    credentials: true,
-};
+
 
 const app = express();
 configDotenv();
@@ -21,10 +18,11 @@ const connectDB = async () => {
     }
 };
 
-connectDB();
-app.use(cors(corsOptions)); // CORS middleware
+
+app.use(cors()); // CORS middleware
 app.use(express.json()); // JSON middleware
 
+const dirname = path.resolve()
 
 
 // Schema to store location data
@@ -37,7 +35,7 @@ const locationSchema = new mongoose.Schema({
 const Location = mongoose.model('Location', locationSchema);
 
 // Route to handle incoming location data
-app.post('/store-location', async (req, res) => {
+app.post('/location', async (req, res) => {
     try {
         const { latitude, longitude } = req.body;
 
@@ -51,7 +49,13 @@ app.post('/store-location', async (req, res) => {
     }
 });
 
+app.use(express.static(path.join(dirname, "/frontend")))
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(dirname, "frontend", "index.html"))
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running at https://location-tracker-ruby.vercel.app`);
+    connectDB();
+    console.log(`Server running at ${PORT}`);
 });

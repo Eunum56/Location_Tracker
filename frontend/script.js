@@ -26,7 +26,7 @@ function showPosition(position) {
 // Send location to backend using async/await
 async function sendLocationToBackend(latitude, longitude) {
     try {
-        const response = await fetch('https://location-tracker-ruby.vercel.app/store-location', {
+        const response = await fetch('location', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
