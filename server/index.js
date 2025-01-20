@@ -4,7 +4,7 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 
 const corsOptions = {
-    origin: 'https://location-tracker-hh7v.vercel.app', // Frontend URL
+    origin: 'https://location-tracker-zv8x.vercel.app', // Frontend URL
     methods: ['GET', 'POST'],
     credentials: true,
 };
@@ -53,5 +53,5 @@ app.post('/store-location', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running at https://location-tracker-gray.vercel.app`);
+    console.log(`Server running at https://location-tracker-ruby.vercel.app`);
 });
