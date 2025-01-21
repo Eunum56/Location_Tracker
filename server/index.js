@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { configDotenv } from "dotenv";
 import path from "path";
+import Routes from "./locationRoute.js";
 
 const dirname = path.resolve()
 
@@ -26,7 +27,7 @@ const connectDB = async () => {
 
 
 // Route to handle incoming location data
-app.use("/api", locationRoute)
+app.use("/api", Routes)
 
 app.use(express.static(path.join(dirname, "/frontend")))
 app.get('*', (req, res) => {

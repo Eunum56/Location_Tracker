@@ -26,3 +26,5 @@ Routes.post("/location", async (req, res) => {
         res.status(500).json({ error: 'Error storing location data' });
     }
 })
+
+export default Routes;
