@@ -4,10 +4,14 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 import path from "path";
 
+const dirname = path.resolve()
 
 
 const app = express();
 configDotenv();
+
+app.use(express.json()); // JSON middleware
+app.use(cors()); // CORS middleware
 
 const connectDB = async () => {
     try {
@@ -19,35 +23,10 @@ const connectDB = async () => {
 };
 
 
-app.use(cors()); // CORS middleware
-app.use(express.json()); // JSON middleware
 
-const dirname = path.resolve()
-
-
-// Schema to store location data
-const locationSchema = new mongoose.Schema({
-    latitude: Number,
-    longitude: Number,
-    timestamp: { type: Date, default: Date.now }
-});
-
-const Location = mongoose.model('Location', locationSchema);
 
 // Route to handle incoming location data
-app.post('/location', async (req, res) => {
-    try {
-        const { latitude, longitude } = req.body;
-
-        const newLocation = new Location({ latitude, longitude });
-        await newLocation.save();
-
-        res.json({ message: 'Location stored successfully!' });
-    } catch (error) {
-        console.error('Error storing location:', error);
-        res.status(500).json({ error: 'Error storing location data' });
-    }
-});
+app.use("/api", locationRoute)
 
 app.use(express.static(path.join(dirname, "/frontend")))
 app.get('*', (req, res) => {
