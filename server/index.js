@@ -2,13 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { configDotenv } from "dotenv";
-import path from "path";
 import Routes from "./locationRoute.js";
 
-const dirname = path.resolve()
 
 const corsOption = {
-    origin: ['https://youtube-video-six.vercel.app', "http://localhost:4000"],
+    origin: ['https://youtube-video-six.vercel.app', "http://127.0.0.1:5500/frontend/index.html"],
     methods: ['POST', "GET"],
     credentials: true
 }
@@ -34,10 +32,7 @@ const connectDB = async () => {
 // Route to handle incoming location data
 app.use("/api", Routes)
 
-app.use(express.static(path.join(dirname, "/frontend")))
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(dirname, "frontend", "index.html"))
-})
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
