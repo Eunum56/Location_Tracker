@@ -7,12 +7,17 @@ import Routes from "./locationRoute.js";
 
 const dirname = path.resolve()
 
+const corsOption = {
+    origin: 'https://youtube-video-six.vercel.app',
+    methods: ['POST', "GET"],
+    credentials: true
+}
 
 const app = express();
 configDotenv();
 
 app.use(express.json()); // JSON middleware
-app.use(cors()); // CORS middleware
+app.use(cors(corsOption)); // CORS middleware
 
 const connectDB = async () => {
     try {
