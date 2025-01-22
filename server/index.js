@@ -6,7 +6,7 @@ import Routes from "./locationRoute.js";
 
 
 const corsOption = {
-    origin: ['https://youtube-video-teal.vercel.app', "http://127.0.0.1:5500/frontend/index.html"],
+    origin: "*",
     methods: ['POST', "GET"],
     credentials: true
 }
