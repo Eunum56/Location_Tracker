@@ -25,7 +25,7 @@ function showPosition(position) {
 // Send location to backend using async/await
 async function sendLocationToBackend(latitude, longitude) {
     try {
-        const response = await fetch('http://localhost:4000/api/location', {
+        const response = await fetch('https://youtube-videobackend.vercel.app/api/location', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
