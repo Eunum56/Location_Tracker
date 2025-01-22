@@ -3,19 +3,20 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { configDotenv } from "dotenv";
 import Routes from "./locationRoute.js";
-
-
-const corsOption = {
-    origin: "*",
-    methods: ['POST', "GET"],
-    credentials: true
-}
-
-const app = express();
 configDotenv();
 
-app.use(express.json()); // JSON middleware
+const app = express();
+
+const corsOption = {
+    origin: 'https://youtube-video-teal.vercel.app',
+    methods: ['POST', 'GET'],
+    credentials: true
+};
+
+
 app.use(cors(corsOption)); // CORS middleware
+
+app.use(express.json()); // JSON middleware
 
 const connectDB = async () => {
     try {
@@ -38,4 +39,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     connectDB();
     console.log(`Server running at ${PORT}`);
+});
+
+app.use((err, req, res, next) => {
+    console.error('Error occurred:', err);
+    res.status(500).json({ error: 'An unexpected error occurred' });
 });
