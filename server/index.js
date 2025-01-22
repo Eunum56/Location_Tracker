@@ -8,7 +8,7 @@ import Routes from "./locationRoute.js";
 const dirname = path.resolve()
 
 const corsOption = {
-    origin: 'https://youtube-video-six.vercel.app',
+    origin: ['https://youtube-video-six.vercel.app', "http://localhost:4000"],
     methods: ['POST', "GET"],
     credentials: true
 }
