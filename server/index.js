@@ -10,7 +10,8 @@ const app = express();
 const corsOption = {
     origin: 'https://youtube-video-teal.vercel.app',
     methods: ['POST', 'GET'],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type']
 };
 
 
@@ -20,7 +21,10 @@ app.use(express.json()); // JSON middleware
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
         console.log("Connected to MongoDB");
     } catch (error) {
         console.log(`Error while connecting DataBase ${error}`);
